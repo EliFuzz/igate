@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { init } from "src/server";
 
 init().catch((error) => {
