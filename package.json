@@ -1,6 +1,6 @@
 {
   "name": "igate",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "MCP server that incorporates MCP Servers under a unified API",
   "homepage": "https://github.com/EliFuzz/igate-mcp#readme",
   "repository": {
