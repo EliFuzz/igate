@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+rm -rf node_modules || true && rm -rf build || true && rm -f pnpm-lock.yaml || true && pnpm i && pnpm build

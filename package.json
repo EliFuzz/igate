@@ -1,0 +1,56 @@
+{
+  "name": "igate",
+  "version": "1.0.0",
+  "description": "MCP server that incorporates MCP Servers under a unified API",
+  "homepage": "https://github.com/EliFuzz/igate-mcp#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/EliFuzz/igate-mcp.git"
+  },
+  "type": "module",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "bin": {
+    "igate": "build/index.js"
+  },
+  "files": [
+    "build",
+    "LICENSE",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsc && tsc-alias",
+    "start": "node build/index.js",
+    "dev": "tsc --watch",
+    "inspect": "mcp-inspector --transport stdio tsx --watch src/index.ts"
+  },
+  "keywords": [
+    "mcp",
+    "modelcontextprotocol",
+    "api",
+    "server",
+    "gateway",
+    "orchestration"
+  ],
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.21.1",
+    "zod": "3.23.8"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/inspector": "0.17.2",
+    "@types/node": "^24.10.0",
+    "@typescript-eslint/eslint-plugin": "8.46.4",
+    "@typescript-eslint/parser": "8.46.4",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-prettier": "5.5.4",
+    "tsc-alias": "^1.8.16"
+  }
+}

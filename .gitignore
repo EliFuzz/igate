@@ -1,0 +1,17 @@
+# IDE
+.vscode/
+
+# Node.js
+node_modules/
+pnpm-debug.log*
+
+# Build output
+dist/
+build/
+out/
+
+# OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
