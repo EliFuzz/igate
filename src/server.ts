@@ -39,7 +39,7 @@ let server: McpServer | null = null;
 export const getServer = (): McpServer => server!;
 
 export const init = async (): Promise<void> => {
-    config = await getAllServerTools(JSON.parse(process.env.SERVERS || '{}'));
+    config = await getAllServerTools(JSON.parse(process.env.IGATE_SERVERS || '{}'));
     server = new McpServer({ name: "igate", version: "1.0.0" }, {
         instructions: [
             "IMPORTANT: Always call `search_tool` first for any MCP tool to retrieve its input schema and understand required parameters before using `execute_tool`.",
