@@ -2,10 +2,10 @@
   "name": "igate",
   "version": "1.0.1",
   "description": "MCP server that incorporates MCP Servers under a unified API",
-  "homepage": "https://github.com/EliFuzz/igate-mcp#readme",
+  "homepage": "https://github.com/EliFuzz/igate#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/EliFuzz/igate-mcp.git"
+    "url": "https://github.com/EliFuzz/igate.git"
   },
   "type": "module",
   "main": "build/index.js",
