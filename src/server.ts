@@ -36,6 +36,7 @@ interface Servers {
 
 let config: Servers = { servers: {} };
 let server: McpServer | null = null;
+let transportCache: Map<string, StdioClientTransport | StreamableHTTPClientTransport> = new Map();
 
 export const getServer = (): McpServer => server!;
 
@@ -127,14 +128,23 @@ const expandServerConfig = (config: Server): Server => ({
 
 const getClient = async <T>(config: Server, serverName: string, callback: (client: Client) => Promise<T>): Promise<T> => {
     const { url, headers, env, command, args } = expandServerConfig(config);
-    const transport = url
-        ? new StreamableHTTPClientTransport(new URL(url), { requestInit: headers ? { headers: headers } : undefined })
-        : new StdioClientTransport({ command: command!, args: args || [], env: { ...env, NODE_NO_WARNINGS: '1' } });
+
+    let transport = transportCache.get(serverName);
+    if (!transport) {
+        transport = url
+            ? new StreamableHTTPClientTransport(new URL(url), { requestInit: headers ? { headers: headers } : undefined })
+            : new StdioClientTransport({ command: command!, args: args || [], env: { ...env, NODE_NO_WARNINGS: '1' } });
+        transportCache.set(serverName, transport);
+    }
 
     const client = new Client({ name: serverName, version: "1.0.0" });
     try {
         await client.connect(transport);
         return await callback(client);
+    } catch (error) {
+        console.error(`Error occurred while connecting to ${serverName}:`, error);
+        transportCache.delete(serverName);
+        throw error;
     } finally {
         await client.close();
     }
