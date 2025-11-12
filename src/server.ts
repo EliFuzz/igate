@@ -24,6 +24,7 @@ interface Server {
     command?: string;
     args?: string[];
     url?: string;
+    headers?: Record<string, string>;
     env?: Record<string, string>;
     igate?: Config;
     tools?: Tool[];
@@ -109,21 +110,25 @@ const getAllServerTools = async (input: Servers): Promise<Servers> => {
                     : tools.filter(tool => !config.igate?.deny?.includes(tool.name)) || []
             };
         } catch (error) {
-            console.error(`Error connecting to ${name}:`, error);
+            console.warn(`Failed to connect to ${name}:`, error instanceof Error ? error.message : String(error));
         }
     });
     await Promise.all(mcpServers);
     return results;
 }
 
+const expandEnvVars = (str: string): string => str.replace(/\$\{([^}]+)\}/g, (match, varName) => process.env[varName] || match);
+const expandServerConfig = (config: Server): Server => ({
+    ...config,
+    ...(config.headers && { headers: Object.fromEntries(Object.entries(config.headers).map(([k, v]) => [k, expandEnvVars(v)])) }),
+    ...(config.env && { env: Object.fromEntries(Object.entries(config.env).map(([k, v]) => [k, expandEnvVars(v)])) })
+});
+
 const getClient = async <T>(config: Server, serverName: string, callback: (client: Client) => Promise<T>): Promise<T> => {
-    const transport = config.url
-        ? new StreamableHTTPClientTransport(new URL(config.url))
-        : new StdioClientTransport({
-            command: config.command!,
-            args: config.args || [],
-            env: config.env || {}
-        });
+    const { url, headers, env, command, args } = expandServerConfig(config);
+    const transport = url
+        ? new StreamableHTTPClientTransport(new URL(url), { requestInit: headers ? { headers: headers } : undefined })
+        : new StdioClientTransport({ command: command!, args: args || [], env: { ...env, NODE_NO_WARNINGS: '1' } });
 
     const client = new Client({ name: serverName, version: "1.0.0" });
     try {

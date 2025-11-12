@@ -10,7 +10,7 @@ getServer().registerTool('execute_tool', {
         args: z.record(z.any()).describe('The arguments to pass to the tool. Use "search_tool" to find the required arguments first'),
     },
     outputSchema: {
-        result: z.record(z.any()).describe('The result of the tool execution'),
+        result: z.any().describe('The result of the tool execution'),
     }
 }, async ({ serverName, toolName, args }: { serverName: string, toolName: string, args: Record<string, any> }) => {
     return {

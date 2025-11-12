@@ -18,7 +18,7 @@ getServer().registerTool('search_tool', {
         content: [],
         structuredContent: {
             inputSchema: inputSchema,
-            outputSchema: outputSchema
+            outputSchema: outputSchema || {},
         }
     };
 });
