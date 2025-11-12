@@ -109,6 +109,7 @@ const getAllServerTools = async (input: Servers): Promise<Servers> => {
                     ? tools.filter(tool => config.igate?.allow?.includes(tool.name))
                     : tools.filter(tool => !config.igate?.deny?.includes(tool.name)) || []
             };
+            console.log(`Connected to ${name}, found ${results.servers[name].tools?.length || 0} tools.`);
         } catch (error) {
             console.warn(`Failed to connect to ${name}:`, error instanceof Error ? error.message : String(error));
         }

@@ -83,3 +83,19 @@ In custom `mcp.json`, you can configure iGate with the following options:
   }
 }
 ```
+
+- `${ENV_VAR}`: You can use environment variables in the `headers` and `env` fields to dynamically set values based on your environment. Example:
+
+```json
+{
+  "servers": {
+    "github": {
+      "type": "http",
+      "url": "https://api.githubcopilot.com/mcp/",
+      "headers": {
+        "Authorization": "Bearer ${GITHUB_PAT}"
+      }
+    }
+  }
+}
+```
